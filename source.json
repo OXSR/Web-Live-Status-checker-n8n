@@ -1,0 +1,361 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -260,
+        20
+      ],
+      "id": "5eb01aa8-bae3-4a10-a99c-7be11ff4d5d3",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['URL 1'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        -140
+      ],
+      "id": "bf0d450b-d8e4-42a1-8bcd-cc2f02636f98",
+      "name": "HTTP Request",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "sendTo": "virtualwolfapp@gmail.com",
+        "subject": "=Página web  {{ $json.url }}",
+        "message": "=<div style=\"max-width:500px;margin:40px auto;padding:20px;background:#fffbe6;border:1px solid #ffd700;border-radius:8px;font-family:sans-serif;\">\n  <h2 style=\"color:#d32f2f;margin-top:0;\">⚠️ Aviso importante</h2>\n  <p style=\"font-size:16px;color:#222;\">\n    <strong>Página web caída</strong>\n  </p>\n </div>\n",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        960,
+        20
+      ],
+      "id": "221ef7f7-fb16-4435-ad39-8dcff30488b7",
+      "name": "Gmail",
+      "webhookId": "d76fb783-8f6c-4f51-bb39-d80b83512475",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "iZVnGeUBQpnz210m",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "da749585-7905-4bd0-b7c1-e6ae3235a9fb",
+              "leftValue": "={{ $json.error.name }}",
+              "rightValue": "Error",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "b0e0bb01-8e81-4d4d-8428-1475e039ea75",
+              "leftValue": "={{ $json.error.stack }}",
+              "rightValue": "Error",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        520,
+        20
+      ],
+      "id": "c82094df-0952-46ce-80f3-7ebfbf96bc29",
+      "name": "Filtro"
+    },
+    {
+      "parameters": {
+        "content": "### Trigger\n**Ejecución cada 30min**",
+        "height": 260,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        -80
+      ],
+      "id": "9aeaefe6-cb20-42ca-8ae3-6eed10331799",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Petición\n**Continúa con error**",
+        "height": 260,
+        "width": 180,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        -240
+      ],
+      "id": "9a4c209e-9948-43e2-aa57-a9fa9e2ba41b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "### Filtro\n**Filtramos la respuesta**",
+        "height": 240,
+        "width": 180,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -60
+      ],
+      "id": "c3b2cdf0-d7c2-42ea-8084-7f22772ac945",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "### Email\n**Envíamos email de web caída**",
+        "height": 240,
+        "width": 180,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        920,
+        -60
+      ],
+      "id": "bdc3f6e0-973f-4898-8dd4-1d7e38e2d2ef",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "### Petición 2\n**(url distinta) Continúa con error**",
+        "height": 260,
+        "width": 180,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        200,
+        100
+      ],
+      "id": "68dbe71c-dcb4-4ed3-8584-0525671ef647",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['URL 2'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        200
+      ],
+      "id": "6bb13a74-770b-4cce-89b5-e0d942de3064",
+      "name": "HTTP Request1",
+      "alwaysOutputData": true,
+      "notesInFlow": false,
+      "onError": "continueErrorOutput",
+      "notes": "URL"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9817fd92-3b67-4451-ad6e-4c638e996b6f",
+              "name": "URL 1",
+              "value": "https://google.es",
+              "type": "string"
+            },
+            {
+              "id": "bb5026bd-6221-458c-86c9-fefd3f8ae945",
+              "name": "URL 2",
+              "value": "https://ejemplourlnovalida.com",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        20
+      ],
+      "id": "9e1ac95c-e0d5-4989-9db6-b4f52ab4991b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "### URL Web \n**Introducimos los URLs a escanear**",
+        "height": 260,
+        "width": 180
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -80
+      ],
+      "id": "8f5d8ede-f5d1-4b76-b1cd-7e4c095ad6d7",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recibe el error message\nconst errorMsg = $input.first().json.error.message;\n\n// Usar regex para extraer el dominio/URL después de 'ENOTFOUND '\nconst regex = /ENOTFOUND ([^\\s]+)/;\nconst match = errorMsg.match(regex);\n\n// Si encuentra, lo deja en output; si no, lo deja vacío o null\nreturn [\n  {\n    json: {\n      original_message: errorMsg,\n      url: match ? match[1] : null, // aquí está la URL filtrada\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        740,
+        20
+      ],
+      "id": "7e00c416-a799-4364-aaf6-0c7ecbfb1420",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "content": "### Filtro URL\n**Especifico el URL que falla**",
+        "height": 240,
+        "width": 180,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -60
+      ],
+      "id": "d963e1b3-c5de-48ee-8b55-7fa4627da448",
+      "name": "Sticky Note6"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Filtro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        []
+      ]
+    },
+    "Filtro": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Filtro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8a80c29c7b31662c1620f54d32e4b278d8e292907f82f13f4d9417196de2f737"
+  }
+}
