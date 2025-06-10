@@ -1,5 +1,4 @@
 # Web-Live-Status-checker-n8n
-=====================================
 
 Este flujo de trabajo de n8n monitoriza de forma periódica cada 30min un conjunto de URLs y envía un correo de alerta cuando alguna deja de responder o devuelve error.  
 Está pensado para administradores web, equipos DevOps o cualquier persona que necesite saber al instante si un sitio está caído.
